@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommender System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f8f9fa;
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white !important;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .book-image {
+            height: 300px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .book-info {
+            padding: 1.5rem;
+        }
+
+        .book-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-author {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-badge {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .votes-badge {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-book-reader me-2"></i>Book Recommender
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/recommend">
+                            <i class="fas fa-magic me-1"></i>Get Recommendations
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">Discover Your Next Favorite Book</h1>
+            <p class="lead mb-4">Explore our curated collection of top-rated books and get personalized recommendations</p>
+            <a href="/recommend" class="btn btn-light btn-lg">
+                <i class="fas fa-magic me-2"></i>Get Recommendations
+            </a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <h2 class="section-title text-center">Top 50 Books</h2>
+        <div class="row g-4">
+            {% for i in range(book_name|length) %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="book-card">
+                    <img src="{{ image[i] }}" class="book-image" alt="{{ book_name[i] }}">
+                    <div class="book-info">
+                        <h3 class="book-title">{{ book_name[i] }}</h3>
+                        <p class="book-author">
+                            <i class="fas fa-user-edit me-1"></i>{{ author[i] }}
+                        </p>
+                        <div class="badge-container">
+                            <span class="rating-badge">
+                                <i class="fas fa-star me-1"></i>{{ rating[i] }}
+                            </span>
+                            <span class="votes-badge">
+                                <i class="fas fa-users me-1"></i>{{ votes[i] }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">© 2024 Book Recommender System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+</html>
