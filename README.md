@@ -20,7 +20,7 @@ A sophisticated web-based book recommendation system that leverages machine lear
 
 ### 3. Recommendations
 <div align="center">
-  <img src="screenshots/results-page.png" alt="Recommendations" width="800px"/>
+  <img src="screenshots/ results-page.png" alt="Recommendations" width="800px"/>
   <br>
   <em>Personalized book recommendations based on user search</em>
 </div>
